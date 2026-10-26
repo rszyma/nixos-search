@@ -158,8 +158,9 @@ optionsBody types query from size sort =
 -- champion of an evolutionary search over the clause structure, the fields and
 -- the boosts, scored against `benchmark/run.mjs` on a held-out 30% of the
 -- curated queries. Read them as found artefacts rather than as argued designs:
--- the notes say what the result does, not what anyone intended it to do. The one
--- exception is `fuzzyDescription` in `optionsRanking`, which is marked as such.
+-- the notes say what the result does, not what anyone intended it to do. The
+-- exceptions are `fuzzyDescription` in `optionsRanking` and `exactPrograms` in
+-- `packagesRanking`, which are marked as such.
 --
 -- Every number here is a ranking decision, so changing one should come with a
 -- benchmark delta.
@@ -346,6 +347,30 @@ packagesRanking words =
                 , caseInsensitive = True
                 }
                 (dotted words)
+
+        -- An exact binary name: e.g. `rg` for `ripgrep` package.
+        exactPrograms : List Clause
+        exactPrograms =
+            [ disMax
+                { tieBreaker = Nothing
+                , boost = Nothing
+                , queries =
+                    keywordClauses
+                        { kind = "term"
+                        , field = "package_programs"
+                        , boost = Just 30.0
+                        , caseInsensitive = False
+                        }
+                        (whole words)
+                        ++ keywordClauses
+                            { kind = "term"
+                            , field = "package_mainProgram"
+                            , boost = Just 110.0
+                            , caseInsensitive = False
+                            }
+                            (whole words)
+                }
+            ]
     in
     { must =
         [ disMax
@@ -362,6 +387,7 @@ packagesRanking words =
             ++ popularity
             ++ depCountAndText
             ++ programPath
+            ++ exactPrograms
     }
 
 

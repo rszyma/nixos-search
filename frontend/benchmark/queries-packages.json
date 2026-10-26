@@ -813,5 +813,29 @@
         "q": "yodaStruct",
         "category": "exact",
         "relevant": [["pkg:d-seams"]]
+    },
+    {
+        "id": "g157",
+        "q": "rg",
+        "category": "program",
+        "relevant": [["pkg:ripgrep"]]
+    },
+    {
+        "id": "g158",
+        "q": "pi",
+        "category": "program",
+        "relevant": [["pkg:pi-coding-agent"]]
+    },
+    {
+        "id": "g159",
+        "q": "code",
+        "category": "program",
+        "relevant": [["pkg:vscode"]]
+    },
+    {
+        "id": "g160",
+        "q": "make",
+        "category": "program",
+        "relevant": [["pkg:gnumake"]]
     }
 ]
